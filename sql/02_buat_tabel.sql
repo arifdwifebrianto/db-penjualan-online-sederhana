@@ -48,7 +48,7 @@ CREATE TABLE Item_Pesanan (
     
     FOREIGN KEY (id_pesanan) REFERENCES Pesanan(id_pesanan) ON DELETE CASCADE ON UPDATE CASCADE,
     
-    FOREIGN KEY (id_produk) REFERENCES Produk(id_produk) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (id_produk) REFERENCES Produk(id_produk) ON UPDATE CASCADE,
 
     CONSTRAINT CHK_Jumlah_Positif CHECK (jumlah > 0),
     
