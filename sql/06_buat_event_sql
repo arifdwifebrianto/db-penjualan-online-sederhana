@@ -1,0 +1,12 @@
+CREATE EVENT ev_auto_cancel_pesanan_kedaluwarsa
+ON SCHEDULE EVERY 1 HOUR -- Cek setiap 1 jam
+STARTS CURRENT_TIMESTAMP
+DO
+BEGIN
+    -- Update pesanan jadi 'Dibatalkan' jika Pending > 24 jam
+    -- Trigger akan otomatis berjalan untuk mengembalikan stok
+    UPDATE pesanan
+    SET status_pesanan = 'Dibatalkan'
+    WHERE status_pesanan = 'Pending' 
+    AND tanggal_pesanan < (NOW() - INTERVAL 1 DAY);
+END
