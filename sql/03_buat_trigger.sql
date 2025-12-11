@@ -1,13 +1,18 @@
 -- A. Trigger: Sebelum Insert Item (Cek Stok & Hitung Harga)
+-- Hapus trigger lama agar bisa dibuat ulang
+DROP TRIGGER IF EXISTS cek_stok_dan_harga_before_insert;
+
 CREATE TRIGGER cek_stok_dan_harga_before_insert
 BEFORE INSERT ON item_pesanan
 FOR EACH ROW
 BEGIN
     DECLARE stok_tersedia INT;
     DECLARE harga_satuan DECIMAL(10,2);
+    DECLARE nama_produk_asli VARCHAR(100); -- Variabel baru untuk menampung nama
 
-    -- Ambil stok dan harga saat ini
-    SELECT stok, harga INTO stok_tersedia, harga_satuan 
+    -- Ambil stok, harga, DAN nama produk saat ini
+    SELECT stok, harga, nama_produk 
+    INTO stok_tersedia, harga_satuan, nama_produk_asli
     FROM produk WHERE id_produk = NEW.id_produk;
 
     -- Validasi Stok
@@ -15,6 +20,9 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Error: Stok produk tidak mencukupi!';
     END IF;
+
+    -- ISI OTOMATIS: Simpan nama produk ke kolom 'produk_yang_dibeli'
+    SET NEW.produk_yang_dibeli = nama_produk_asli;
 
     -- Hitung total harga item otomatis
     SET NEW.total_harga_per_item = harga_satuan * NEW.jumlah;

@@ -31,8 +31,11 @@ CREATE TABLE item_pesanan (
     id_item INT AUTO_INCREMENT PRIMARY KEY,
     id_pesanan INT,
     id_produk INT,
-    jumlah INT NOT NULL CHECK (jumlah > 0), -- Beli minimal 1
-    total_harga_per_item DECIMAL(10, 2), -- Disimpan statis saat transaksi terjadi
+    produk_yang_dibeli VARCHAR(100), 
+    
+    jumlah INT NOT NULL CHECK (jumlah > 0),
+    total_harga_per_item DECIMAL(10, 2),
+    
     FOREIGN KEY (id_pesanan) REFERENCES pesanan(id_pesanan),
     FOREIGN KEY (id_produk) REFERENCES produk(id_produk)
 );
