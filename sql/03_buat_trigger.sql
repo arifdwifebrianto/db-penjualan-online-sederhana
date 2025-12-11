@@ -1,5 +1,4 @@
 -- A. Trigger: Sebelum Insert Item (Cek Stok & Hitung Harga)
--- Hapus trigger lama agar bisa dibuat ulang
 DROP TRIGGER IF EXISTS cek_stok_dan_harga_before_insert;
 
 CREATE TRIGGER cek_stok_dan_harga_before_insert
